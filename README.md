@@ -61,7 +61,9 @@ The Jython script has this Jython code that imports the ````com.onefoursix.Doubl
 Here is the Jython code:
 
 ````
+# Import the Java class from the jar file
 from com.onefoursix import Doubler
+
 for record in sdc.records:
   try:
     

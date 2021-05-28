@@ -1,4 +1,6 @@
+# Import the Java class from the jar file
 from com.onefoursix import Doubler
+
 for record in sdc.records:
   try:
     
