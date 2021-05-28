@@ -2,9 +2,9 @@
 "pipelineConfig": {
   "schemaVersion" : 6,
   "version" : 22,
-  "pipelineId" : "JythonJar7494de77-d10e-4e4f-ba09-ac06f62be28e",
+  "pipelineId" : "CallingJavafromJythondf3f0760-e6d0-46fd-befb-665cb52a7f5d",
   "uuid" : "d1dbac0a-2184-476d-8319-f1450b6ae4f3",
-  "title" : "Calling-Java-From-Jython",
+  "title" : "Calling Java from Jython",
   "description" : "",
   "configuration" : [ {
     "name" : "executionMode",
@@ -434,10 +434,10 @@
         "value" : {
           "type" : "MAP",
           "value" : {
-            "f1" : {
+            "x" : {
               "type" : "INTEGER",
-              "sqpath" : "/f1",
-              "dqpath" : "/f1"
+              "sqpath" : "/x",
+              "dqpath" : "/x"
             }
           },
           "sqpath" : "",
@@ -449,10 +449,10 @@
         "value" : {
           "type" : "MAP",
           "value" : {
-            "f1" : {
+            "x" : {
               "type" : "INTEGER",
-              "sqpath" : "/f1",
-              "dqpath" : "/f1"
+              "sqpath" : "/x",
+              "dqpath" : "/x"
             },
             "doubled_by_static_method" : {
               "type" : "LONG",
@@ -470,20 +470,20 @@
         }
       }
     },
+    "schemaFromPreviewUpdateTime" : 1622241977952,
     "displayMode" : "BASIC",
-    "schemaFromPreviewUpdateTime" : 1622238729635,
     "previewConfig" : {
-      "previewSource" : "CONFIGURED_SOURCE",
-      "batchSize" : 10,
-      "timeout" : 120000,
-      "writeToDestinations" : false,
+      "clusterManagerType" : "CONFIGURED_CLUSTER",
+      "endStage" : "",
       "executeLifecycleEvents" : false,
+      "previewSource" : "CONFIGURED_SOURCE",
       "showHeader" : true,
       "showFieldType" : true,
-      "rememberMe" : true,
       "timeZone" : "Browser",
-      "clusterManagerType" : "CONFIGURED_CLUSTER",
-      "endStage" : ""
+      "rememberMe" : true,
+      "batchSize" : 10,
+      "writeToDestinations" : false,
+      "timeout" : 120000
     }
   },
   "stages" : [ {
@@ -493,7 +493,7 @@
     "stageVersion" : "3",
     "configuration" : [ {
       "name" : "rawData",
-      "value" : "{\n  \"f1\": 7\n}"
+      "value" : "{\n  \"x\": 7\n}"
     }, {
       "name" : "stopAfterFirstBatch",
       "value" : false
@@ -801,7 +801,7 @@
       "value" : "# Available Objects:\n#\n#  sdc.state: a dict that is preserved between invocations of this script.\n#         Useful for caching bits of data e.g. counters.\n#  sdc.log.<loglevel>(msg, obj...): use instead of print to send log messages to the log4j log instead of stdout.\n#                               loglevel is any log4j level: e.g. info, error, warn, trace.\n#  sdc.getFieldNull(Record, 'field path'): Receive a constant defined above\n#                                  to check if the field is typed field with value null\n#  sdc.createMap(boolean listMap): Create a map for use as a field in a record.\n#                            Pass True to this function to create a list map (ordered map).\n#  sdc.createEvent(String type, int version): Creates a new event.\n#                            Create new empty event with standard headers.\n#  sdc.createMap(boolean listMap): Create a map for use as a field in a record.\n#                            Pass True to this function to create a list map (ordered map).\n#\n\n# sdc.state['connection'] = new Connection().open()\n\n"
     }, {
       "name" : "script",
-      "value" : "from com.onefoursix import Doubler\nfor record in sdc.records:\n  try:\n    \n    # Call a static method on the Java class\n    record.value['doubled_by_static_method'] = Doubler.double_it_static_method(record.value['f1'])\n    \n    # Create an instance of the Doubler class\n    d = Doubler()\n    \n    # Call a method on the instance\n    record.value['doubled_by_instance_method'] = d.double_it_instance_method(record.value['f1'])\n    \n    sdc.output.write(record)\n  except Exception as e:\n    sdc.error.write(record, str(e))"
+      "value" : "from com.onefoursix import Doubler\nfor record in sdc.records:\n  try:\n    \n    # Read an int field from a record\n    x = record.value['x']\n    \n    # Call a static method on the Java class to double the record field value\n    record.value['doubled_by_static_method'] = Doubler.double_it_static_method(x)\n    \n    # Create an instance of the Doubler class\n    d = Doubler()\n    \n    # Call a method on the instance to double the record field value\n    record.value['doubled_by_instance_method'] = d.double_it_instance_method(x)\n    \n    sdc.output.write(record)\n  except Exception as e:\n    sdc.error.write(record, str(e))"
     }, {
       "name" : "destroyScript",
       "value" : "# Available Objects:\n#\n#  sdc.state: a dict that is preserved between invocations of this script.\n#         Useful for caching bits of data e.g. counters.\n#  sdc.log.<loglevel>(msg, obj...): use instead of print to send log messages to the log4j log instead of stdout.\n#                               loglevel is any log4j level: e.g. info, error, warn, trace.\n#  sdc.getFieldNull(Record, 'field path'): Receive a constant defined above \n#                                  to check if the field is typed field with value null.\n#  sdc.createMap(boolean listMap): Create a map for use as a field in a record.\n#                            Pass True to this function to create a list map (ordered map).\n#  sdc.createEvent(String type, int version): Creates a new event.\n#                            Create new empty event with standard headers.\n#  sdc.toEvent(Record): Send event to event stream.\n#                            Only events created with sdcFunctions.createEvent are supported.\n#\n\n# sdc.state['connection'].close()\n\n"
@@ -1172,9 +1172,9 @@
     "eventLanes" : [ ]
   },
   "info" : {
-    "name" : "JythonJar7494de77-d10e-4e4f-ba09-ac06f62be28e",
-    "pipelineId" : "JythonJar7494de77-d10e-4e4f-ba09-ac06f62be28e",
-    "title" : "Jython-Jar",
+    "name" : "CallingJavafromJythondf3f0760-e6d0-46fd-befb-665cb52a7f5d",
+    "pipelineId" : "CallingJavafromJythondf3f0760-e6d0-46fd-befb-665cb52a7f5d",
+    "title" : "Calling Java from Jython",
     "description" : "",
     "created" : 1622216669642,
     "lastModified" : 1622216669642,
@@ -1210,12 +1210,12 @@
     "eventLanes" : [ ]
   },
   "metadata" : {
-    "dpm.pipeline.rules.id" : "9ca6b898-88c1-440e-b97b-73800774e911:schbrooks",
-    "dpm.pipeline.id" : "8cacd06c-cc05-4fda-bdb8-47c1c1a125b0:schbrooks",
+    "dpm.pipeline.rules.id" : "f495a5c2-3572-4121-aa12-6e9f57f9f9eb:schbrooks",
+    "dpm.pipeline.connections" : "",
+    "dpm.pipeline.id" : "85a84cf4-e87c-4eba-ab35-7d3b92d98ee3:schbrooks",
     "dpm.base.url" : "https://trailer.streamsetscloud.com",
-    "dpm.pipeline.version" : "2",
-    "dpm.pipeline.commit.id" : "a6c95937-64f2-4c95-afb4-23eb39c4b67b:schbrooks",
-    "dpm.pipeline.connections" : ""
+    "dpm.pipeline.version" : "1",
+    "dpm.pipeline.commit.id" : "0be9e1d7-a8a5-449c-b3a7-2246dc06fa02:schbrooks"
   },
   "startEventStages" : [ {
     "instanceName" : "Discard_StartEventStage",

@@ -82,4 +82,6 @@ for record in sdc.records:
     sdc.error.write(record, str(e))
 ````
 
-<img src="images/import-jar.png" width="70%">
+### Preview the pipeline to see it working
+
+<img src="images/working.png" width="70%">
